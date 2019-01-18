@@ -2,9 +2,9 @@ import React, {
   Component
 } from "react";
 import ReactDOM from "react-dom";
-import axios from "axios";
 import Header from "./components/Header";
 import Products from "./components/Products";
+import SnackBar from "./components/SnackBar";
 import Footer from "./components/Footer";
 import "./scss/style.scss";
 import data from "./data/data.js";
@@ -36,12 +36,15 @@ class App extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
-  // Fetch Initial Set of Products from external API
+
   getProducts() {
-    const bakupCart = JSON.parse(localStorage.getItem('cart'));
-    bakupCart.forEach(item => {
-      this.handleAddToCart(item);
-    });
+    if(localStorage.getItem('cart') != '' && localStorage.getItem('cart') != null) {
+      const bakupCart = JSON.parse(localStorage.getItem('cart'));
+      bakupCart.forEach(item => {
+        this.handleAddToCart(item);
+      });
+    }
+
     this.setState({
       products: data
     });
@@ -69,7 +72,6 @@ class App extends Component {
     let productID = selectedProducts.id;
     let productQty = selectedProducts.quantity;
     if (this.checkProduct(productID)) {
-      console.log("hi");
       let index = cartItem.findIndex(x => x.id == productID);
       cartItem[index].quantity =
         Number(cartItem[index].quantity) + Number(productQty);
@@ -97,6 +99,12 @@ class App extends Component {
     this.sumTotalAmount(this.state.cart);
   }
   handleRemoveProduct(id, e) {
+    this.openModal();
+
+    setTimeout(() => {
+      this.closeModal();
+    }, 2000);
+
     let cart = this.state.cart;
     let index = cart.findIndex(x => x.id == id);
     cart.splice(index, 1);
@@ -192,9 +200,6 @@ class App extends Component {
       Products productsList = {
         this.state.products
       }
-      searchTerm = {
-        this.state.term
-      }
       addToCart = {
         this.handleAddToCart
       }
@@ -209,6 +214,10 @@ class App extends Component {
       }
       />
        <Footer />
+       <SnackBar
+          openModal={this.state.modalActive}
+          text={'Item Deleted.'}
+          closeModal={this.closeModal}/>
       </div>
     );
   }

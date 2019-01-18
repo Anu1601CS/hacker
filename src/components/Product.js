@@ -11,7 +11,14 @@ class Product extends Component {
     };
     this.child = React.createRef();
   }
-  addToCart(image, name, price, id, quantity) {
+  calDiscount(price, discount){
+    var price = Number(price);
+    var discount = Number(discount) / 100;
+    var totalValue = price - (price * discount)
+
+    return totalValue.toFixed(2);
+  }
+  addToCart(image, name, price, id, quantity, discount, type) {
     this.setState(
       {
         selectedProduct: {
@@ -19,6 +26,8 @@ class Product extends Component {
           name: name,
           price: price,
           id: id,
+          discount:discount,
+          type:type,
           quantity: quantity
         }
       },
@@ -41,45 +50,28 @@ class Product extends Component {
     );
     this.child.current.resetQuantity();
   }
-  quickView(image, name, price, id) {
-    this.setState(
-      {
-        quickViewProdcut: {
-          image: image,
-          name: name,
-          price: price,
-          id: id
-        }
-      },
-      function() {
-        this.props.openModal(this.state.quickViewProdcut);
-      }
-    );
-  }
   render() {
     let image = this.props.image;
     let name = this.props.name;
-    let price = this.props.price;
+    let oriPrice = this.props.price;
     let id = this.props.id;
     let quantity = this.props.productQuantity;
+    let discount = this.props.type == 'fiction' ? this.props.discount + 15 : this.props.discount;
+    const discountPrice = this.calDiscount(this.props.price, discount);
+    let type = this.props.type;
+    let price = discountPrice;
     return (
       <div className="product">
         <div className="product-image">
           <img
             src={image}
             alt={this.props.name}
-            onClick={this.quickView.bind(
-              this,
-              image,
-              name,
-              price,
-              id,
-              quantity
-            )}
           />
         </div>
         <h4 className="product-name">{this.props.name}</h4>
-        <p className="product-price">{this.props.price}</p>
+        <p className="product-price discount">{this.props.price}</p>
+        <p className="product-name">Discount : {this.props.discount}% {this.props.type == 'fiction' ? '+ 15%' : ''}</p>
+        <p className="product-price">{discountPrice}</p>
         <Counter
           productQuantity={quantity}
           updateQuantity={this.props.updateQuantity}
@@ -96,7 +88,9 @@ class Product extends Component {
               name,
               price,
               id,
-              quantity
+              quantity,
+              discount,
+              type
             )}
           >
             {!this.state.isAdded ? "ADD TO CART" : "ADDED"}

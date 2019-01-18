@@ -7,16 +7,7 @@ class Products extends Component {
   }
   render() {
     let productsData;
-    let term = this.props.searchTerm;
-    let x;
-
-    function searchingFor(term) {
-      return function(x) {
-        return x.name.toLowerCase().includes(term.toLowerCase()) || !term;
-      };
-    }
     productsData = this.props.productsList
-      .filter(searchingFor(term))
       .map(product => {
         return (
           <Product
@@ -25,6 +16,8 @@ class Products extends Component {
             name={product.name}
             image={product.img_url}
             id={product.id}
+            discount={product.discount}
+            type={product.type}
             addToCart={this.props.addToCart}
             productQuantity={this.props.productQuantity}
             updateQuantity={this.props.updateQuantity}

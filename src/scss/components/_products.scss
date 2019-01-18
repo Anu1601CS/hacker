@@ -1,7 +1,5 @@
 .products-wrapper {
-  padding-top: 50px;
-  animation: slideUp 300ms linear;
-  animation-delay: 150ms;
+  padding: 50px 0px;
   @media (max-width: 991px) {
     padding-top: 68px;
   }
@@ -15,7 +13,7 @@
   flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   padding: 16px;
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   @media (max-width: 768px) {
     padding: 8px;
@@ -45,24 +43,5 @@
       flex-basis: 100%;
       -webkit-flex-basis: 100%;
     }
-  }
-}
-
-// Empty states
-.no-results {
-  text-align: center;
-  max-width: 520px;
-  margin: 0 auto;
-  img {
-    width: 320px;
-    margin: 16px 0 32px 0;
-    opacity: 0.33;
-  }
-  h2 {
-    margin-bottom: 16px;
-    color: #666;
-  }
-  p {
-    color: #999;
   }
 }

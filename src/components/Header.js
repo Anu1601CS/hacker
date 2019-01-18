@@ -99,6 +99,7 @@ class Header extends Component {
             >
               <CartScrollBar>{view}</CartScrollBar>
               <div className="action-block">
+              <div className="action-block-total"><strong>SUBTOTAL ({this.props.totalItems})  :  {this.props.total}</strong></div>
                 <button
                   type="button"
                   className={this.state.cart.length > 0 ? " " : "disabled"}

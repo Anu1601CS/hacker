@@ -20,6 +20,7 @@
     "react": "^16.0.0",
     "react-custom-scrollbars": "^4.1.1",
     "react-dom": "^16.0.0",
+    "react-redux": "^6.0.0",
     "react-transition-group": "^1.1.2"
   },
   "devDependencies": {
@@ -40,6 +41,7 @@
     "node-sass": "^4.9.0",
     "optimize-css-assets-webpack-plugin": "^4.0.2",
     "postcss-loader": "^2.1.5",
+    "redux-devtools": "^3.5.0",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
