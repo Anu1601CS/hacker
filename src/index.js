@@ -4,7 +4,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import tasks from "./reducers";
 import App from "./components/App";
-import initialData from "../data/items.json";
+import initialData from "./data/items.json";
 import thunk from "redux-thunk";
 import { createLogger } from "redux-logger";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
