@@ -4,7 +4,7 @@
   "description": "Shopping Cart using React & Redux.",
   "main": "./src/index.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --open",
     "build": "npm start"
   },
   "repository": {
