@@ -1,2 +1,1 @@
-# hacker
-hacker
+# HackerEarth
