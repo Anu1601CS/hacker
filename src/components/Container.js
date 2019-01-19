@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import ProductAction from "./ProductAction";
 import ProductControl from "./ProductControl";
 import { removeTask, removeCart, addCart } from "../actions";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
 const Container = ({ state, remove, removeCart, addCart, showToast }) => {
@@ -12,7 +12,6 @@ const Container = ({ state, remove, removeCart, addCart, showToast }) => {
     <tbody className="ui-tbody">
       <tr>
         <td>
-        <ToastContainer />
           <br />
         </td>
       </tr>

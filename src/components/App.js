@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Container from "./Container";
 import "../styles/styles.scss";
+import { ToastContainer } from 'react-toastify';
 
 const App = ({ cardsCount, state, total, discount, typeDiscount }) => {
   localStorage.setItem("cart", JSON.stringify(state));
@@ -13,6 +14,7 @@ const App = ({ cardsCount, state, total, discount, typeDiscount }) => {
             <h3 className="logo">Front End Engineering Test  (Shopping Cart)</h3>
           </div>
         </header>
+        <ToastContainer />
         {state.map(quan => {
           (total = total + quan.price * quan.quantity),
             (discount =
