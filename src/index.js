@@ -1,226 +1,36 @@
-import React, {
-  Component
-} from "react";
-import ReactDOM from "react-dom";
-import Header from "./components/Header";
-import Products from "./components/Products";
-import SnackBar from "./components/SnackBar";
-import Footer from "./components/Footer";
-import "./scss/style.scss";
-import data from "./data/data.js";
+import React from "react";
+import { render } from "react-dom";
+import { createStore, applyMiddleware, compose } from "redux";
+import { Provider } from "react-redux";
+import tasks from "./reducers";
+import App from "./components/App";
+import initialData from "../data/items.json";
+import thunk from "redux-thunk";
+import { createLogger } from "redux-logger";
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      products: [],
-      cart: [],
-      totalItems: 0,
-      totalAmount: 0,
-      term: "",
-      category: "",
-      cartBounce: false,
-      quantity: 1,
-      quickViewProduct: {},
-      modalActive: false
-    };
+let data = initialData;
 
-    this.handleMobileSearch = this.handleMobileSearch.bind(this);
-    this.handleCategory = this.handleCategory.bind(this);
-    this.handleAddToCart = this.handleAddToCart.bind(this);
-    this.sumTotalItems = this.sumTotalItems.bind(this);
-    this.sumTotalAmount = this.sumTotalAmount.bind(this);
-    this.checkProduct = this.checkProduct.bind(this);
-    this.updateQuantity = this.updateQuantity.bind(this);
-    this.handleRemoveProduct = this.handleRemoveProduct.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-  }
+const middleware = [thunk];
+if (process.env.NODE_ENV !== "production") {
+  middleware.push(createLogger());
+}
 
-  getProducts() {
-    if(localStorage.getItem('cart') != '' && localStorage.getItem('cart') != null) {
-      const bakupCart = JSON.parse(localStorage.getItem('cart'));
-      bakupCart.forEach(item => {
-        this.handleAddToCart(item);
-      });
-    }
-
-    this.setState({
-      products: data
-    });
-  }
-  componentWillMount() {
-    this.getProducts();
-  }
-
-  // Mobile Search Reset
-  handleMobileSearch() {
-    this.setState({
-      term: ""
-    });
-  }
-  // Filter by Category
-  handleCategory(event) {
-    this.setState({
-      category: event.target.value
-    });
-    console.log(this.state.category);
-  }
-  // Add to Cart
-  handleAddToCart(selectedProducts) {
-    let cartItem = this.state.cart;
-    let productID = selectedProducts.id;
-    let productQty = selectedProducts.quantity;
-    if (this.checkProduct(productID)) {
-      let index = cartItem.findIndex(x => x.id == productID);
-      cartItem[index].quantity =
-        Number(cartItem[index].quantity) + Number(productQty);
-      this.setState({
-        cart: cartItem
-      });
-    } else {
-      cartItem.push(selectedProducts);
-    }
-    this.setState({
-      cart: cartItem,
-      cartBounce: true
-    });
-    setTimeout(
-      function () {
-        this.setState({
-          cartBounce: false,
-          quantity: 1
-        });
-      }.bind(this),
-      1000
-    );
-    localStorage.setItem("cart", JSON.stringify(this.state.cart));
-    this.sumTotalItems(this.state.cart);
-    this.sumTotalAmount(this.state.cart);
-  }
-  handleRemoveProduct(id, e) {
-    this.openModal();
-
-    setTimeout(() => {
-      this.closeModal();
-    }, 2000);
-
-    let cart = this.state.cart;
-    let index = cart.findIndex(x => x.id == id);
-    cart.splice(index, 1);
-    this.setState({
-      cart: cart
-    });
-    localStorage.setItem("cart", JSON.stringify(cart));
-    this.sumTotalItems(this.state.cart);
-    this.sumTotalAmount(this.state.cart);
-    e.preventDefault();
-  }
-  checkProduct(productID) {
-    let cart = this.state.cart;
-    return cart.some(function (item) {
-      return item.id === productID;
-    });
-  }
-  sumTotalItems() {
-    let total = 0;
-    let cart = this.state.cart;
-    total = cart.length;
-    this.setState({
-      totalItems: total
-    });
-  }
-  sumTotalAmount() {
-    let total = 0;
-    let cart = this.state.cart;
-    for (var i = 0; i < cart.length; i++) {
-      total += cart[i].price * parseInt(cart[i].quantity);
-    }
-    this.setState({
-      totalAmount: total
-    });
-  }
-
-  //Reset Quantity
-  updateQuantity(qty) {
-    console.log("quantity added...");
-    this.setState({
-      quantity: qty
-    });
-  }
-  // Open Modal
-  openModal(product) {
-    this.setState({
-      quickViewProduct: product,
-      modalActive: true
-    });
-  }
-  // Close Modal
-  closeModal() {
-    this.setState({
-      modalActive: false
-    });
-  }
-
-  render() {
-    return (
-      <div className = "container" >
-      <
-      Header cartBounce = {
-        this.state.cartBounce
-      }
-      total = {
-        this.state.totalAmount
-      }
-      totalItems = {
-        this.state.totalItems
-      }
-      cartItems = {
-        this.state.cart
-      }
-      removeProduct = {
-        this.handleRemoveProduct
-      }
-      handleMobileSearch = {
-        this.handleMobileSearch
-      }
-      handleCategory = {
-        this.handleCategory
-      }
-      categoryTerm = {
-        this.state.category
-      }
-      updateQuantity = {
-        this.updateQuantity
-      }
-      productQuantity = {
-        this.state.moq
-      }
-      /> <
-      Products productsList = {
-        this.state.products
-      }
-      addToCart = {
-        this.handleAddToCart
-      }
-      productQuantity = {
-        this.state.quantity
-      }
-      updateQuantity = {
-        this.updateQuantity
-      }
-      openModal = {
-        this.openModal
-      }
-      />
-       <Footer />
-       <SnackBar
-          openModal={this.state.modalActive}
-          text={'Item Deleted.'}
-          closeModal={this.closeModal}/>
-      </div>
-    );
+if (
+  localStorage.getItem("cart") != "" &&
+  localStorage.getItem("cart") != null
+) {
+  let restoreData = JSON.parse(localStorage.getItem("cart"));
+  if(restoreData.length > 0){
+    data = restoreData;
   }
 }
 
-ReactDOM.render( < App / > , document.getElementById("root"));
+const store = createStore(tasks, data, composeEnhancers(applyMiddleware(thunk, ...middleware)));
+
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("app")
+);

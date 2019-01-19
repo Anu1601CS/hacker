@@ -1,16 +1,6 @@
 {
   "presets": [
-    [
-      "env",
-      {
-        "targets": {
-          "browsers": ["last 2 versions"]
-        },
-        "debug": true
-      }
-    ],
-    "react",
-    "stage-2"
+    "env", "react"
   ],
-  "plugins": ["transform-runtime"]
+  "plugins": ["transform-object-rest-spread", "transform-es2015-spread"]
 }
