@@ -1,0 +1,73 @@
+.product-container {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ui.compact.segment {
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    align-items: center;
+    color: #a6a5a5;
+    border-radius: 0px;
+    justify-content: space-between;
+  }
+
+  .ui-helper-center {
+    text-align: center !important;
+  }
+
+  .ui.compact.segment img {
+    margin-right: 10px;
+  }
+
+  .product-list table {
+    width: 60%;
+  }
+
+  .item-description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .item-delete:hover {
+    cursor: pointer;
+  }
+
+  .shopping-container {
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    padding: 100px;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between;
+  }
+
+  .count {
+    width: fit-content !important;
+    margin: auto !important;
+    height: 45px;
+    padding: 0 20px !important;
+  }
+
+  .inner-container-title {
+    padding: 10px;
+  }
+
+  .reload-items {
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    background: grey;
+    color: white;
+    margin: auto;
+    padding: 10px 100px;
+  }
+
+  .restore-td{
+    width: 100%!important;
+    text-align: center!important;
+  }
