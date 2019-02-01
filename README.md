@@ -1,4 +1,4 @@
-# HackerEarth
+# Hacker
 
 1. Install the npm packages
 
